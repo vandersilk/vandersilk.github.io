@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Noon van der Silk - Home</title>
+        <link rel="stylesheet" type="text/css" href="./css/default.css" />
+        <link href="https://fonts.googleapis.com/css?family=Dawning+of+a+New+Day|Lovers+Quarrel|Sacramento|Roboto+Mono" rel="stylesheet" />
+
+        <script src="//unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+				<script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <div id="header">
+            <div id="logo">
+              <h1><a href="./"><img src="images/vds-logo-1.png" width="600" /></a></h1>
+              <div> <h2>fashion <span>&larr;</span> high-tech!</h2> </div>
+            </div>
+        </div>
+
+        <div id="content">
+            <h2><span>Home</span></h2>
+            <div id="app">
+	<div class="selectors">
+		<label for="range">Range: </label>
+		<select name="range" v-model="selectedRange">
+			<option>-- Select --</option>
+			<option v-for="range in ranges">{{ range }}</option>
+		</select>
+		<label for="item">Item: </label>
+		<select name="item" v-model="selectedItem">
+			<option>-- Select --</option>
+			<option v-for="item in items">{{ item }}</option>
+		</select>
+		<label for="colour">Colour: </label>
+		<select name="colour" v-model="selectedColour">
+			<option>-- Select --</option>
+			<option v-for="colour in colours">{{ colour }}</option>
+		</select>
+	</div>
+	<div class="grid">
+		<div class="grid-item" v-for="product in filteredProducts()">
+				<h4><a v-bind:href="product.link">{{ product.name }}</a></h4>
+				<a v-bind:href="product.link"><img v-bind:src="'images/paom/' + product.ref + '.png'" /></a>
+		</div>
+	</div>
+</div>
+
+
+<script>
+function unique(arr) {
+	let u = {};
+	return arr.filter((v) => {
+		return u[v] = !u.hasOwnProperty(v);
+	});
+};
+
+var app = new Vue(
+	{ "el": "#app"
+	, "data": { products: []
+					  , ranges:   []
+						, colours: 	[]
+						, items: 		[]
+						, filteredProducts: function () {
+								var result = this.products;
+
+								if ( this.selectedRange !== undefined && this.selectedRange !== "-- Select --") {
+									result = result.filter(p => p.range == this.selectedRange); 
+								}
+
+								if ( this.selectedItem !== undefined && this.selectedItem !== "-- Select --") {
+									result = result.filter(p => p.item == this.selectedItem); 
+								}
+
+								if ( this.selectedColour !== undefined && this.selectedColour !== "-- Select --") {
+									result = result.filter(p => p.colour == this.selectedColour); 
+								}
+								
+								return result;
+							}
+						, selectedRange:  undefined
+						, selectedColour: undefined
+						, selectedItem:   undefined
+						}
+  , "mounted": function () {
+			this.$nextTick(function () {
+				var self = this; 
+				$.getJSON("/js/paom.json", (data) => {
+					self.products         = data;
+
+					self.items   = unique(data.map(d => d.item)).sort();
+					self.ranges  = unique(data.map(d => d.range)).sort();
+					self.colours = unique(data.map(d => d.colour)).sort();
+				});
+			});
+		}
+
+	, "updated": function () {
+  		this.$nextTick( function () {
+				var elem  = document.querySelector(".grid");
+				var msnry = new Masonry(elem, 
+					{ itemSelector: ".grid-item"
+				  , columnWidth:  300
+					});
+			});
+		}
+
+	}
+);
+</script>
+
+        </div>
+        <div id="footer">
+        </div>
+    </body>
+</html>

@@ -1,0 +1,3 @@
+site:
+  shell: "stack run -- clean && stack run -- watch"
+

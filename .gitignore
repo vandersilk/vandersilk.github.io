@@ -1,0 +1,6 @@
+_cache/
+
+*.o
+*.hi
+.stack-work
+
