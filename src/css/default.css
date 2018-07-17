@@ -58,6 +58,7 @@ div.selectors {
 label, select {
 	font-family: "Roboto Mono";
 	font-size: 1.2em;
+	padding: 3px;
 }
 
 /* 
