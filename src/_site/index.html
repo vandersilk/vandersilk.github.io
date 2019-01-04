@@ -1,121 +1,112 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Noon van der Silk - Home</title>
-        <link rel="stylesheet" type="text/css" href="./css/default.css" />
-        <link href="https://fonts.googleapis.com/css?family=Dawning+of+a+New+Day|Lovers+Quarrel|Sacramento|Roboto+Mono" rel="stylesheet" />
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Noon van der Silk - Home</title>
+  <link rel="stylesheet" type="text/css" href="./css/default.css" />
+  <link href="//fonts.googleapis.com/css?family=Itim|Molle:400i|Trade+Winds|Fira+Mono" rel="stylesheet">
+  <script src="//unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+</head>
+<body>
+  <div id="content">
+    <div id="header">
+      <h1><span>Van Der Silk</span></h1>
+      <small>fashion ← high-tech!</small>
+    </div>
 
-        <script src="//unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-
-				<script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-
-        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    </head>
-    <body>
-        <div id="header">
-            <div id="logo">
-              <h1><a href="./"><img src="images/vds-logo-1.png" width="600" /></a></h1>
-              <div> <h2>fashion <span>&larr;</span> high-tech!</h2> </div>
-            </div>
-        </div>
-
-        <div id="content">
-            <h2><span>Home</span></h2>
-            <div id="app">
-	<div class="selectors">
-		<label for="range">Range: </label>
-		<select name="range" v-model="selectedRange">
-			<option>-- Select --</option>
-			<option v-for="range in ranges">{{ range }}</option>
-		</select>
-		<label for="item">Item: </label>
-		<select name="item" v-model="selectedItem">
-			<option>-- Select --</option>
-			<option v-for="item in items">{{ item }}</option>
-		</select>
-		<label for="colour">Colour: </label>
-		<select name="colour" v-model="selectedColour">
-			<option>-- Select --</option>
-			<option v-for="colour in colours">{{ colour }}</option>
-		</select>
-	</div>
-	<div class="grid">
-		<div class="grid-item" v-for="product in filteredProducts()">
-				<h4><a v-bind:href="product.link">{{ product.name }}</a></h4>
-				<a v-bind:href="product.link"><img v-bind:src="'images/paom/' + product.ref + '.png'" /></a>
-		</div>
-	</div>
+    <div class="welcome">
+  <h3 class="a">About</h3>
+  <p> We design fashion items in an open-source environment, using Haskell and
+  AI. You can find most of the source code for the designs below on our <a href="https://github.com/silky/fashion">GitHub</a>. You can find a
+   complete list of all the designs on our <a href="https://paom.com/search?type=product&q=*noonvandersilk*+tag:public" title="Noon van der Silk on PAOM">PAOM
+     store</a>.
+  </p>
+  <h3 class="a">Contact</h3>
+  <p>Reach out via <a href="mailto:noonsilk+vandersilk@gmail.com">email</a>.
+  </p>
 </div>
 
+<div class="item-list">
+  
+    <div class="item">
+      <div class="image"> <a href="https://paom.com/products/t-shirt-quantum-ai-blockchain-tee-noonvandersilk" title="Buy Quantum AI Blockchain on PAOM"><img src="images/designs/quantum-ai-blockchain.png" /></a></div>
+      <div class="text">
+        <h3 class="a"><a href="https://paom.com/products/t-shirt-quantum-ai-blockchain-tee-noonvandersilk" title="Buy Quantum AI Blockchain on PAOM">Quantum AI Blockchain</a></h3>
+        <h3 class="b">Created in 2018</h3>
+        <p class="bs"><em>Back Story</em></p>
+        <p>
+Never wanting to miss out on a trend, this shirt is inspired by the “surface code”; a technique to help realise large-scale quantum computers. It also features a quantum circuit holding quantum money, that when measured, yields classical money.
+</p>
 
-<script>
-function unique(arr) {
-	let u = {};
-	return arr.filter((v) => {
-		return u[v] = !u.hasOwnProperty(v);
-	});
-};
+        <p><a href="https://paom.com/products/t-shirt-quantum-ai-blockchain-tee-noonvandersilk">&raquo; Shop The Collection on PAOM</a></p>
+      </div>
+    </div>
+  
+    <div class="item">
+      <div class="image"> <a href="https://paom.com/products/cppn-tee" title="Buy The CPPN on PAOM"><img src="images/designs/the-cppn.png" /></a></div>
+      <div class="text">
+        <h3 class="a"><a href="https://paom.com/products/cppn-tee" title="Buy The CPPN on PAOM">The CPPN</a></h3>
+        <h3 class="b">Created in 2018</h3>
+        <p class="bs"><em>Back Story</em></p>
+        <p>
+This design is inspired by my love of tye-dye, but is produced with a special kind of neural network called a “CPPN”. CPPNs are particularly cool because they can be used to generate images of arbitrary resolution; and they can be specialised to reproduce certain images or collections of images.
+</p>
 
-var app = new Vue(
-	{ "el": "#app"
-	, "data": { products: []
-					  , ranges:   []
-						, colours: 	[]
-						, items: 		[]
-						, filteredProducts: function () {
-								var result = this.products;
+        <p><a href="https://paom.com/products/cppn-tee">&raquo; Shop The Collection on PAOM</a></p>
+      </div>
+    </div>
+  
+    <div class="item">
+      <div class="image"> <a href="https://paom.com/products/t-shirt-ai-fashion-designer-tee-noonvandersilk" title="Buy The AI Fashion Designer on PAOM"><img src="images/designs/ai-fashion-designer.png" /></a></div>
+      <div class="text">
+        <h3 class="a"><a href="https://paom.com/products/t-shirt-ai-fashion-designer-tee-noonvandersilk" title="Buy The AI Fashion Designer on PAOM">The AI Fashion Designer</a></h3>
+        <h3 class="b">Created in 2018</h3>
+        <p class="bs"><em>Back Story</em></p>
+        <p>
+This design features prints of different fashion items (t-shirts, shoes, jackets, boots, handbags) that were “designed” by an AI fashion designer in two senses: the shape was produced by the algorithm, and the pattern that is printed on each item was determined by the famous “style transfer” technique.
+</p>
+<p>
+The ideas used in this design have been presented/exhibited at White Night, Melbourne Knowledge Week, and the RMIT School of Fashion in 2018.
+</p>
 
-								if ( this.selectedRange !== undefined && this.selectedRange !== "-- Select --") {
-									result = result.filter(p => p.range == this.selectedRange); 
-								}
+        <p><a href="https://paom.com/products/t-shirt-ai-fashion-designer-tee-noonvandersilk">&raquo; Shop The Collection on PAOM</a></p>
+      </div>
+    </div>
+  
+    <div class="item">
+      <div class="image"> <a href="https://paom.com/products/evolution-of-dance-tee0034" title="Buy Evolution of Dance on PAOM"><img src="images/designs/evolution-of-dance.png" /></a></div>
+      <div class="text">
+        <h3 class="a"><a href="https://paom.com/products/evolution-of-dance-tee0034" title="Buy Evolution of Dance on PAOM">Evolution of Dance</a></h3>
+        <h3 class="b">Created in 2017</h3>
+        <p class="bs"><em>Back Story</em></p>
+        <p>
+This design is our first exploration into deep-learning-based design. The dance moves on this shirt are based on a famous YouTube video; the moves themselves are determined directly from a video by the algorithm. The result is a sampled collection of dance-moves!
+</p>
+<p>
+These ideas have been presented to the general public at Melbourne Science Week, 2018.
+</p>
 
-								if ( this.selectedItem !== undefined && this.selectedItem !== "-- Select --") {
-									result = result.filter(p => p.item == this.selectedItem); 
-								}
+        <p><a href="https://paom.com/products/evolution-of-dance-tee0034">&raquo; Shop The Collection on PAOM</a></p>
+      </div>
+    </div>
+  
+    <div class="item">
+      <div class="image"> <a href="https://paom.com/products/retrohaskellteev2" title="Buy Retro Haskell on PAOM"><img src="images/designs/retro-haskell.png" /></a></div>
+      <div class="text">
+        <h3 class="a"><a href="https://paom.com/products/retrohaskellteev2" title="Buy Retro Haskell on PAOM">Retro Haskell</a></h3>
+        <h3 class="b">Created in 2017</h3>
+        <p class="bs"><em>Back Story</em></p>
+        <p>
+This T-Shirt, which features the Haskell logo, was designed entirely in Haskell, and the <a href="https://github.com/silky/fashion/tree/master/RetroHaskell">source-code is open and available to all</a>.
+</p>
 
-								if ( this.selectedColour !== undefined && this.selectedColour !== "-- Select --") {
-									result = result.filter(p => p.colour == this.selectedColour); 
-								}
-								
-								return result;
-							}
-						, selectedRange:  undefined
-						, selectedColour: undefined
-						, selectedItem:   undefined
-						}
-  , "mounted": function () {
-			this.$nextTick(function () {
-				var self = this; 
-				$.getJSON("/js/paom.json", (data) => {
-					self.products         = data;
+        <p><a href="https://paom.com/products/retrohaskellteev2">&raquo; Shop The Collection on PAOM</a></p>
+      </div>
+    </div>
+  
+</div>
 
-					self.items   = unique(data.map(d => d.item)).sort();
-					self.ranges  = unique(data.map(d => d.range)).sort();
-					self.colours = unique(data.map(d => d.colour)).sort();
-				});
-			});
-		}
-
-	, "updated": function () {
-  		this.$nextTick( function () {
-				var elem  = document.querySelector(".grid");
-				var msnry = new Masonry(elem, 
-					{ itemSelector: ".grid-item"
-				  , columnWidth:  300
-					});
-			});
-		}
-
-	}
-);
-</script>
-
-        </div>
-        <div id="footer">
-        </div>
-    </body>
+  </div>
+</body>
 </html>

@@ -19,8 +19,19 @@ pandocMathCompiler =
     in pandocCompilerWith defaultHakyllReaderOptions writerOptions
 
 
+-- Plan
+--
+-- 1. Homepage with hard-coded set of items
+-- 2. Specific pages, with the details of the things in each item.
+-- 3. Don't do anything with vue
+-- 4. Read the JSON file at compile time
+
+
 main :: IO ()
 main = hakyll $ do
+
+    let items = ["retro-haskell", "the-cppn", "ai-fashion-designer"]
+
     match "images/**/*" $ do
         route   idRoute
         compile copyFileCompiler
@@ -41,52 +52,26 @@ main = hakyll $ do
         route   idRoute
         compile compressCssCompiler
 
-    match (fromList ["about.rst", "contact.markdown"]) $ do
-        route   $ setExtension "html"
-        compile $ pandocMathCompiler
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
-            >>= relativizeUrls
-
-    match "posts/*" $ do
+    -- TODO: Review.
+    match "designs/*" $ do
         route $ setExtension "html"
-        compile $ pandocMathCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    postCtx
+        compile $ 
+                (pandocMathCompiler)
             >>= saveSnapshot "content"
-            >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
-
-    create ["archive.html"] $ do
-        route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
-            let archiveCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "Archives"            `mappend`
-                    defaultContext
-
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
-                >>= loadAndApplyTemplate "templates/default.html" archiveCtx
-                >>= relativizeUrls
-
-
-    match (fromList ["links.html", "about.html"]) $ do
-        route idRoute
-        compile $ do
-            let linksCtx = defaultContext
-
-            getResourceBody
-                >>= applyAsTemplate linksCtx
-                >>= loadAndApplyTemplate "templates/default.html" linksCtx
-                >>= relativizeUrls
 
     match "index.html" $ do
         route idRoute
         compile $ do
-            posts <- (liftM (take 10)) $ recentFirst =<< loadAll "posts/*"
+            posts   <- (liftM (take 10)) $ recentFirst =<< loadAll "posts/*"
+            designs <- recentFirst =<< loadAll "designs/*"
+
+            -- error $ show designs
+
             let indexCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "Home"                `mappend`
+                    listField "posts"   postCtx (return posts)   `mappend`
+                    listField "designs" postCtx (return designs) `mappend`
+                    constField "title" "Home"                    `mappend`
                     defaultContext
 
             getResourceBody

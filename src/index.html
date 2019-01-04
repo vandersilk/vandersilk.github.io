@@ -2,91 +2,33 @@
 title: Home
 ---
 
-<div id="app">
-	<div class="selectors">
-		<label for="range">Range: </label>
-		<select name="range" v-model="selectedRange">
-			<option>-- Select --</option>
-			<option v-for="range in ranges">{{ range }}</option>
-		</select>
-		<label for="item">Item: </label>
-		<select name="item" v-model="selectedItem">
-			<option>-- Select --</option>
-			<option v-for="item in items">{{ item }}</option>
-		</select>
-		<label for="colour">Colour: </label>
-		<select name="colour" v-model="selectedColour">
-			<option>-- Select --</option>
-			<option v-for="colour in colours">{{ colour }}</option>
-		</select>
-	</div>
-	<div class="grid">
-		<div class="grid-item" v-for="product in filteredProducts()">
-				<h4><a v-bind:href="product.link">{{ product.name }}</a></h4>
-				<a v-bind:href="product.link"><img v-bind:src="'images/paom/' + product.ref + '.png'" /></a>
-		</div>
-	</div>
+<div class="welcome">
+  <h3 class="a">About</h3>
+  <p> We design fashion items in an open-source environment, using Haskell and
+  AI. You can find most of the source code for the designs below on our <a
+     href="https://github.com/silky/fashion">GitHub</a>. You can find a
+   complete list of all the designs on our <a
+     href="https://paom.com/search?type=product&q=*noonvandersilk*+tag:public"
+     title="Noon van der Silk on PAOM" >PAOM
+     store</a>.
+  </p>
+  <h3 class="a">Contact</h3>
+  <p>Reach out via <a href="mailto:noonsilk+vandersilk@gmail.com">email</a>.
+  </p>
 </div>
 
+<div class="item-list">
+  $for(designs)$
+    <div class="item">
+      <div class="image"> <a href="$link$" title="Buy $name$ on PAOM"><img src="$image$" /></a></div>
+      <div class="text">
+        <h3 class="a"><a href="$link$" title="Buy $name$ on PAOM">$name$</a></h3>
+        <h3 class="b">Created in $created$</h3>
+        <p class="bs"><em>Back Story</em></p>
+        $body$
 
-<script>
-function unique(arr) {
-	let u = {};
-	return arr.filter((v) => {
-		return u[v] = !u.hasOwnProperty(v);
-	});
-};
-
-var app = new Vue(
-	{ "el": "#app"
-	, "data": { products: []
-					  , ranges:   []
-						, colours: 	[]
-						, items: 		[]
-						, filteredProducts: function () {
-								var result = this.products;
-
-								if ( this.selectedRange !== undefined && this.selectedRange !== "-- Select --") {
-									result = result.filter(p => p.range == this.selectedRange); 
-								}
-
-								if ( this.selectedItem !== undefined && this.selectedItem !== "-- Select --") {
-									result = result.filter(p => p.item == this.selectedItem); 
-								}
-
-								if ( this.selectedColour !== undefined && this.selectedColour !== "-- Select --") {
-									result = result.filter(p => p.colour == this.selectedColour); 
-								}
-								
-								return result;
-							}
-						, selectedRange:  undefined
-						, selectedColour: undefined
-						, selectedItem:   undefined
-						}
-  , "mounted": function () {
-			this.$$nextTick(function () {
-				var self = this; 
-				$$.getJSON("/js/paom.json", (data) => {
-					self.products         = data;
-
-					self.items   = unique(data.map(d => d.item)).sort();
-					self.ranges  = unique(data.map(d => d.range)).sort();
-					self.colours = unique(data.map(d => d.colour)).sort();
-				});
-			});
-		}
-
-	, "updated": function () {
-  		this.$$nextTick( function () {
-				var elem  = document.querySelector(".grid");
-				var msnry = new Masonry(elem, 
-					{ itemSelector: ".grid-item"
-				  , columnWidth:  300
-					});
-			});
-		}
-
-	}
-);
-</script>
+        <p><a href="$link$">&raquo; Shop The Collection on PAOM</a></p>
+      </div>
+    </div>
+  $endfor$
+</div>
