@@ -153,3 +153,6 @@ a {
 a:hover {
   background: gold;
 }
+
+h1 a { color: gold; text-decoration: none; }
+h1 a:hover { background: black; }
